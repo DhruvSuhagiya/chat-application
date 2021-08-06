@@ -1,0 +1,10 @@
+.ClientTwo {
+    display: flex;
+    padding: 2px;
+    flex-direction: column;
+    width: 16vw;
+    height: 60vh;
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px 4px orange;
+    justify-content: space-between;
+}
