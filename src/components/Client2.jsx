@@ -19,34 +19,34 @@ function Client2() {
       });
       console.log("connecting MQTT client... ");
       client.on("connect", () => {
-        console.log(`${topic} connected to : ${user}`);
+        console.log(`${topic} connected.`);
+        client.subscribe(topic);
       });
       client.on("reconnect", () => {
         console.log("Reconnecting...");
       });
-      
+      client.publish(user, msg);
+      client.on("message", (topic, message) => {
+        setRecivingMsg(message.toString());
+      });
     }
-  }, [client,user]);
+  }, [client]);
 
   const msgHandler = (e) => {
     setMsg(e.target.value);
   };
   const connect = () => {
-    if(user)
-  setClient(mqtt.connect(host));
-  else{
-      alert("Enter user")
-  }
-}
+    if (user) {
+      setClient(mqtt.connect(host));
+    } else {
+      alert("Enter user");
+    }
+  };
   const messageHandle = () => {
     if (client) {
-      client.subscribe(topic);
       client.publish(user, msg);
       console.log("message send");
       client.on("message", (topic, message) => {
-        console.log(
-          "Received Message: " + message.toString() + "\nOn topic: " + topic
-        );
         setRecivingMsg(message.toString());
       });
     }
@@ -62,7 +62,7 @@ function Client2() {
     e.preventDefault();
   };
   const userHandler = (e) => {
-    setUser(e.target.value);
+    setUser(e.target.value.toLowerCase());
   };
   return (
     <>
@@ -77,7 +77,6 @@ function Client2() {
             placeholder="Name"
           />
           <button onClick={connect}>Connect</button>
-          
         </div>
         <div className="disc">
           <textarea
